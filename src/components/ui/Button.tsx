@@ -11,7 +11,7 @@ type TButtonOptions = {
 
 type TButton = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & TButtonOptions;
 
-const Button = forwardRef<TRef, TButton>(({className, variant = "solid", ...rest}, ref) =>{
+const Button = forwardRef<TRef, TButton>(({className, variant = "solid", children, ...rest}, ref) =>{
 
     const getVariant = (variant : TVariant) =>{
         switch (variant) {
@@ -26,7 +26,7 @@ const Button = forwardRef<TRef, TButton>(({className, variant = "solid", ...rest
 
     return (
         <div >
-            <button {...rest} ref={ref} className={cn(getVariant(variant), className)}>Click</button>
+            <button {...rest} ref={ref} className={cn(getVariant(variant), className)}>{children}</button>
         </div>
     )
 })
