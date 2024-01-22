@@ -57,3 +57,11 @@ const Header = ({children}: THeader) =>{
 
 Modal.Header = Header;
 Modal.CloseButton = CloseButton;
+
+
+//re-usable component list
+// Accordion 
+// Tab 
+// Pagination component 
+// slider / carousel component 
+// Breadcrumb 
