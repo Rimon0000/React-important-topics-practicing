@@ -1,12 +1,16 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import cn from "../../utils/cn";
 import Button from "../ui/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TNormalForm, signUpSchema } from "./validation";
+
+
 
 const NormalForm = () =>{
 
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState: { errors }, } = useForm<TNormalForm>({resolver: zodResolver(signUpSchema)})
 
-    const onSubmit = (data) =>{
+    const onSubmit = (data : FieldValues) =>{
         console.log(data);
     }
 
@@ -24,16 +28,19 @@ const NormalForm = () =>{
                 <div className="w-full max-w-md">
                     <label className="block" htmlFor="name">Name</label>
                     <input type="text" id="name" {...register("name")} />
+                    {errors.name && (<span className="text-xs text-red-500">{errors.name.message}</span>)}
                 </div>
                 <div className="w-full max-w-md">
                     <label className="block" htmlFor="email">Email</label>
-                    <input type="text" id="email" {...register("email")} />
+                    <input type="email" id="email" {...register("email")} />
+                    {errors.email && (<span className="text-xs text-red-500">{errors.email.message}</span>)}
                 </div>
                 <div className="w-full max-w-md">
                     <label className="block" htmlFor="password">Password</label>
-                    <input type="text" id="password" {...register("password")} />
+                    <input type="password" id="password" {...register("password", {minLength: 8})} />
+                    {errors.password && (<span className="text-xs text-red-500">{errors.password.message}</span>)}
                 </div>
-                <div className="w-full max-w-md">
+                {/* <div className="w-full max-w-md">
                     <label className="block" htmlFor="select">Select</label>
                     <select>
                         <option value="">One</option>
@@ -49,7 +56,7 @@ const NormalForm = () =>{
                 <div className="w-full max-w-md">
                     <label className="block" htmlFor="select">CheckBox</label>
                     <input className="" type="checkbox" name="" id="" />
-                </div>
+                </div> */}
             </div>
 
             <div className={cn("grid grid-cols-1 justify-items-center gap-5 my-8", {
