@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import cn from "../../utils/cn";
 import Button from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,15 +8,20 @@ import { TNormalForm, signUpSchema } from "./validation";
 
 const NormalForm = () =>{
 
-    const {register, handleSubmit, formState: { errors }, } = useForm<TNormalForm>({resolver: zodResolver(signUpSchema)})
+    const methods = useForm<TNormalForm>({resolver: zodResolver(signUpSchema)})
+
+    const {register, handleSubmit, watch, formState: { errors }, } = methods;
 
     const onSubmit = (data : FieldValues) =>{
         console.log(data);
     }
 
+    console.log(watch('name'));
+
     const double = true;
 
     return (
+        <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className={cn("border border-gray-300 rounded-lg shadow-sm p-5 mx-auto",{
             "max-w-5xl" : double,
             "max-w-md" : !double,
@@ -67,6 +72,7 @@ const NormalForm = () =>{
                 </div>
             </div>
         </form>
+        </FormProvider>
     )
 }
 
