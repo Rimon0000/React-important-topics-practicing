@@ -3,6 +3,7 @@ import cn from "../../utils/cn";
 import Button from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TNormalForm, signUpSchema } from "./validation";
+import InputField from "./InputField";
 
 
 
@@ -30,6 +31,9 @@ const NormalForm = () =>{
             <div className={cn("grid grid-cols-1 justify-items-center gap-5", {
                     "md:grid-cols-2" : double,
                 })}>
+                <div className="w-full max-w-md">
+                    <InputField></InputField>
+                </div>
                 <div className="w-full max-w-md">
                     <label className="block" htmlFor="name">Name</label>
                     <input type="text" id="name" {...register("name")} />

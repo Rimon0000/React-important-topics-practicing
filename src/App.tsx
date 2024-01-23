@@ -1,10 +1,14 @@
 // import { FormEvent, useState } from 'react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import './App.css'
+import { Form, FormSection, FormSubmit, Input } from './components/ReusableForm'
 // import Button from './components/ui/Button'
 import Container from './components/ui/Container'
+import { z } from 'zod'
 // import Modal from './components/ui/Modal'
-import NormalForm from './components/NormalForm/NormalForm'
+// import NormalForm from './components/NormalForm/NormalForm'
 // import MainLayout from './components/layout/MainLayout'
+
 
 function App() {
   // const [modal, setModal] = useState(false)
@@ -17,6 +21,20 @@ function App() {
   //   e.preventDefault()
   //   console.log("clicked");
   // }
+
+
+  const {register, handleSubmit, formState: {errors}} = useForm<TTest>()
+
+  const onSubmit = (data: FieldValues) =>{
+    console.log(data);
+  }
+
+  const TestSchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+  })
+  
+  type TTest = z.infer<typeof TestSchema>
 
   return (
     <Container>
@@ -34,7 +52,20 @@ function App() {
           </Modal>
       </div> */}
 
-      <NormalForm></NormalForm>
+      {/* <NormalForm></NormalForm> */}
+
+    <Form onSubmit={handleSubmit(onSubmit) as SubmitHandler<FieldValues>}>
+      <FormSection>
+        <div className="w-full max-w-md">
+            <label className="block" htmlFor="name">Name</label>
+            <input type="text" id="name" {...register("name")} />
+            {errors.name && (<span className="text-xs text-red-500">{errors.name.message}</span>)}
+        </div>
+        <Input type="email" register={register("email")} errors={errors} label="Email"></Input>
+      </FormSection>
+      <FormSubmit></FormSubmit>
+    </Form> 
+
     </Container>
   )
 }
